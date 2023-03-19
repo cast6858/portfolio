@@ -1,0 +1,95 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r include= FALSE}
+
+library(tidyverse)
+library(magrittr)
+library(ggplot2)
+library(readxl)
+library(plyr)
+library(scales)
+library(webr)
+library(dplyr)
+library(sp)
+library(rgdal)
+library(data.table)
+library(plotly)
+library(treemap)
+#library(lessR)
+
+
+education_df <- read_csv("education.csv")
+sales_df <- read_xlsx("sales.xlsx")
+
+
+```
+
+
+
+
+``` {r}
+
+#education_df
+
+ggplot(education_df, aes(x= percent_graduates_sat )) + geom_histogram(binwidth = 10 ,fill = "darkblue", ) + ggtitle("Frequency of High School Graduates") + labs(x = "Number of High School Graduates", y = "Frequency")
+
+
+```
+
+
+
+``` {r}
+
+#education_df
+
+
+plot(education_df$pupil_staff_ratio , education_df$dropout_rate , 
+      xlab = "Staff Available", ylab = "Student Drop Outs",main = "Student drop outs by the Number of Staff Available", pch = 19 )
+
+
+```
+
+``` {r}
+
+boxplot(education_df$math , horizontal = TRUE, main = "High School Student Math Scores", xlab = "Scores", col = "brown")
+
+```
+
+```{r}
+
+
+sales_df %>% filter(Month == '2018-08')
+
+
+
+
+```
+``` {r}
+
+sales_df1 <- sales_df %>% filter(Month == '2018-08')
+sales_df1
+
+
+p <- sales_df1 %>% 
+  ggplot(aes(x = Target, y = Category )) +
+  geom_col(aes(x = Amount ), fill = "grey") +
+  geom_col(width = 0.5, fill = "black") +
+  ggtitle("Sales in 2018 falling short of projections")+
+  labs(x = "Number of units sold", y = "Items") +
+  coord_cartesian(ylim = c(0.3, 1.7)) +
+  theme_minimal() +
+  theme(panel.grid.major.y = element_blank())
+
+
+
+
+
+ggplotly(p)
+
+
+
+```
