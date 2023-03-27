@@ -1,19 +1,17 @@
+
 import pickle
-import pandas as pd
+import json
 import re
 import string
+import pandas as pd
 import os
+
 # nlp
 import nltk
 from nltk.corpus import stopwords
-from sklearn.metrics import accuracy_score
-from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 
-nltk.download('wordnet')
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.model_selection import train_test_split
+nltk.data.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'nltk_data'))
 
 
 class Main:
@@ -79,8 +77,6 @@ class Main:
         text = self.lemm_sentence(text)
         return text
 
-
-
     def predict(self, text):
         # Preprocess the input string
         text = self.preprocess(text)
@@ -91,13 +87,15 @@ class Main:
         # Make a prediction
         y_pred = self.model.predict(x)
 
-        print(self.model.predict_proba(x)[0][0])
+        confidence = self.model.predict_proba(x)[0][0]
 
+        if confidence >= .75:
+            result = {'prediction': 'spam', 'confidence': str(confidence)}
+        else:
+            result = {'prediction': 'not spam', 'confidence': str(confidence)}
 
-        return y_pred[0]
-
-
-
+        json_result = json.dumps(result)
+        return json_result
 
 
 main = Main()
@@ -107,3 +105,27 @@ spam_ham_df = pd.read_csv("C:\DataScience_DSC_680\project1\spam_ham_dataset.csv"
 for text in spam_ham_df['text']:
     result = main.predict(text)
     print(result)
+
+
+'''
+Test Out Sucessful 100 percent correct : 
+0.999863652135829
+not-spam
+0.999812161694688
+not-spam
+0.9908645857646956
+not-spam
+0.2545463858753426
+spam
+0.9977972289447704
+not-spam
+0.947918128380438
+not-spam
+0.9204215291465883
+not-spam
+0.061929380050151785
+spam
+0.9999991802187885
+not-spam
+0.9998242406509068
+not-spam'''

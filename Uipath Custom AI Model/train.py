@@ -1,17 +1,19 @@
 import pandas as pd
 import re
 import string
-import os
+
 import nltk
 import pickle
 from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
+
 from nltk.stem import WordNetLemmatizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 
-nltk.download('wordnet')
+nltk.download('wordnet', download_dir="C:\\DataScience_DSC_680\\project1\\UiPathStructurePath\\nltk_data")
+nltk.download('stopwords', download_dir="C:\\DataScience_DSC_680\\project1\\UiPathStructurePath\\nltk_data")
+nltk.download('punkt', download_dir="C:\\DataScience_DSC_680\\project1\\UiPathStructurePath\\nltk_data")
 
 class Main:
     def __init__(self):
