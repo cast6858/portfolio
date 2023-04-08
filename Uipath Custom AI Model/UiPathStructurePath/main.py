@@ -24,8 +24,6 @@ class Main:
         with open('model.pkl', 'rb') as f:
             self.model = pickle.load(f)
 
-        '''with open('vector.pkl', 'rb') as f:
-            self.tfidf = pickle.load(f)'''
 
 
     def cleaning(self, text):
@@ -90,6 +88,8 @@ class Main:
         y_pred = self.model.predict(x)
 
         confidence = self.model.predict_proba(x)[0][0]
+
+        #Making a threshold
 
         if confidence >= .75:
             result = {'prediction': 'spam', 'confidence': str(confidence)}

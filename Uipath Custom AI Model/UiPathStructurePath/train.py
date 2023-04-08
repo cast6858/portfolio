@@ -7,7 +7,7 @@ import pickle
 from nltk.corpus import stopwords
 
 from nltk.stem import WordNetLemmatizer
-from sklearn.naive_bayes import MultinomialNB
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 
@@ -18,7 +18,7 @@ nltk.download('punkt', download_dir="C:\\DataScience_DSC_680\\project1\\UiPathSt
 
 class Main:
     def __init__(self):
-        self.model = MultinomialNB()
+        self.model = RandomForestClassifier(n_estimators = 50)
         self.lemmatizer = WordNetLemmatizer()
         self.tfidf = TfidfVectorizer()
 
